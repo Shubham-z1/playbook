@@ -1,11 +1,15 @@
 ---
-- name: Test configuration on EMR Master
-  hosts: all
-  become: true
+- name: Test connectivity to EMR master node
+  hosts: emr_master
+  gather_facts: no
   tasks:
-    - name: Create test file
-      file:
-        path: /home/hadoop/awx_test_file.txt
-        state: touch
-        owner: hadoop
-        mode: '0644'
+    - name: Ping EMR master node using Ansible ping module
+      ansible.builtin.ping:
+
+    - name: Run uptime command to verify shell access
+      ansible.builtin.shell: uptime
+      register: uptime_result
+
+    - name: Display the uptime result
+      ansible.builtin.debug:
+        var: uptime_result.stdout
