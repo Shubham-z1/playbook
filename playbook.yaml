@@ -1,24 +1,11 @@
 ---
-- name: Test EMR connectivity by uploading a file
-  hosts: emr_master
-  gather_facts: false
-  become: false
-
-  vars:
-    local_test_file: test.txt
-    remote_path: /home/hadoop/test.txt
-
+- name: Test configuration on EMR Master
+  hosts: all
+  become: true
   tasks:
-    - name: Upload test file to EMR master node
-      copy:
-        src: "{{ local_test_file }}"
-        dest: "{{ remote_path }}"
+    - name: Create test file
+      file:
+        path: /home/hadoop/awx_test_file.txt
+        state: touch
+        owner: hadoop
         mode: '0644'
-
-    - name: Verify uploaded file
-      shell: cat {{ remote_path }}
-      register: test_file_output
-
-    - name: Display contents of uploaded file
-      debug:
-        var: test_file_output.stdout
