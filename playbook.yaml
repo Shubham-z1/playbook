@@ -6,7 +6,7 @@
 
   vars:
     local_test_file: test.txt
-    remote_path: /home/ec2-user/test.txt
+    remote_path: /home/hadoop/test.txt
 
   tasks:
     - name: Upload test file to EMR master node
