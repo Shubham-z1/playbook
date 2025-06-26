@@ -1,15 +1,17 @@
 ---
-- name: Test connectivity to EMR master node
+- name: Test Connectivity to EMR Master Node
   hosts: emr_master
-  gather_facts: no
+  become: false
+  gather_facts: false
+
   tasks:
-    - name: Ping EMR master node using Ansible ping module
-      ansible.builtin.ping:
+    - name: Ping EMR Master Node
+      ping:
 
-    - name: Run uptime command to verify shell access
-      ansible.builtin.shell: uptime
-      register: uptime_result
+    - name: Check SSH access to EMR
+      ansible.builtin.command: hostname
+      register: hostname_output
 
-    - name: Display the uptime result
-      ansible.builtin.debug:
-        var: uptime_result.stdout
+    - name: Print EMR Hostname
+      debug:
+        msg: "Connected to EMR master node. Hostname: {{ hostname_output.stdout }}"
