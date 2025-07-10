@@ -1,0 +1,10 @@
+---
+- name: Copy file to EMR private EC2
+  hosts: emr
+  gather_facts: false
+  tasks:
+    - name: Copy file to EMR
+      copy:
+        src: /home/ubuntu/test.txt
+        dest: /home/hadoop/test.txt
+        mode: '0644'
